@@ -40,6 +40,8 @@ class NotezTest {
         int indexToRemove = 1;
 
         notez.addToCategory(todo,note);
-        notez.removeNote(indexToRemove);
+        notez.removeNote(todo,indexToRemove);
+
+        assertTrue(notez.getFilemap().get(todo).size() == 0);
     }
 }

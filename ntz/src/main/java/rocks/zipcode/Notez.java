@@ -53,7 +53,10 @@ public final class Notez {
                 ntzEngine.addToCategory(argv[1], ntzEngine.argvToString(argv));
             }
             else if(argv[0].equals("-f")){
-
+                ntzEngine.removeNote(argv[1], Integer.parseInt(argv[2]));
+            }
+            else if(argv[0].equals("-e")){
+                ntzEngine.editNote(argv[1], ntzEngine.argvToString(argv));
             }
             // this should give you an idea about how to TEST the Notez engine
             // without having to spend lots of time messing with command line arguments.
@@ -63,6 +66,7 @@ public final class Notez {
          */
 
     }
+
     public String argvToString(String[] argv){
         String noteToAdd = "";
         for(int i=2;i<argv.length;i++){
@@ -81,22 +85,23 @@ public final class Notez {
         }
     }
 
-    public void removeNote(int indexToRemove){
+    private void editNote(String key, String note) {
+        filemap.put(key,new NoteList(note));
+    }
 
+    public void removeNote(String category, int indexToRemove){
+        filemap.get(category).remove(indexToRemove-1);
     }
 
     private void saveDatabase() {
-
         filemap.save();
     }
 
     private void loadDatabase() {
-
         filemap.load();
     }
 
     public void printResults() {
-
         System.out.println(this.filemap.toString());
     }
 
