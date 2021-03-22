@@ -8,11 +8,12 @@ public final class Notez {
     private FileMap filemap;
 
     public Notez() {
+
         this.filemap  = new FileMap();
     }
     /**
      * Says hello to the world.
-     * 
+     *
      * @param args The arguments of the program.
      */
     public static void main(String argv[]) {
@@ -32,7 +33,7 @@ public final class Notez {
 
         /*
          * You will spend a lot of time right here.
-         * 
+         *
          * instead of loadDemoEntries, you will implement a series
          * of method calls that manipulate the Notez engine.
          * See the first one:
@@ -46,29 +47,61 @@ public final class Notez {
             ntzEngine.printResults();
         } else {
             if (argv[0].equals("-r")) {
-                ntzEngine.addToCategory("General", argv);
-            } // this should give you an idea about how to TEST the Notez engine
-              // without having to spend lots of time messing with command line arguments.
+                ntzEngine.addToCategory("General", ntzEngine.argvToString(argv));
+            }
+            else if(argv[0].equals("-c")){
+                ntzEngine.addToCategory(argv[1], ntzEngine.argvToString(argv));
+            }
+            else if(argv[0].equals("-f")){
+
+            }
+            // this should give you an idea about how to TEST the Notez engine
+            // without having to spend lots of time messing with command line arguments.
         }
         /*
          * what other method calls do you need here to implement the other commands??
          */
 
     }
+    public String argvToString(String[] argv){
+        String noteToAdd = "";
+        for(int i=2;i<argv.length;i++){
+            noteToAdd += argv[i] + " ";
+        }
+        noteToAdd += argv[argv.length-1];
+        return noteToAdd;
+    }
 
-    private void addToCategory(String string, String[] argv) {
+    public void addToCategory(String key, String note) {
+        if(filemap.containsKey(key)){
+            filemap.get(key).add(note);
+        }
+        else{
+            filemap.put(key,new NoteList(note));
+        }
+    }
+
+    public void removeNote(int indexToRemove){
+
     }
 
     private void saveDatabase() {
+
         filemap.save();
     }
 
     private void loadDatabase() {
+
         filemap.load();
     }
 
     public void printResults() {
+
         System.out.println(this.filemap.toString());
+    }
+
+    public FileMap getFilemap() {
+        return filemap;
     }
 
     public void loadDemoEntries() {
